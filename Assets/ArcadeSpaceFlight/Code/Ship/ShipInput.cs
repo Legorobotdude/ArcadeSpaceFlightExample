@@ -41,7 +41,7 @@ public class ShipInput : MonoBehaviour
             strafe = Input.GetAxis("Horizontal");
             SetStickCommandsUsingMouse();
             UpdateMouseWheelThrottle();
-            UpdateKeyboardThrottle(KeyCode.W, KeyCode.S);
+            UpdateThrottle();//You will have to use R/T
         }
         else
         {            
@@ -52,8 +52,9 @@ public class ShipInput : MonoBehaviour
                 roll = -Input.GetAxis("Horizontal") * 0.5f;
 
             strafe = 0.0f;
-            UpdateKeyboardThrottle(KeyCode.R, KeyCode.F);
+            UpdateThrottle();
         }
+        Debug.Log(Input.GetAxis("Throttle"));
     }
 
     /// <summary>
@@ -77,14 +78,17 @@ public class ShipInput : MonoBehaviour
     /// <summary>
     /// Uses R and F to raise and lower the throttle.
     /// </summary>
-    private void UpdateKeyboardThrottle(KeyCode increaseKey, KeyCode decreaseKey)
+    private void UpdateThrottle()
     {
         float target = throttle;
-
-        if (Input.GetKey(increaseKey))
-            target = 1.0f;
-        else if (Input.GetKey(decreaseKey))
-            target = 0.0f;
+        if (Input.GetAxis("Throttle") != 0)
+        {
+            target = Input.GetAxis("Throttle");
+        }
+        //if (Input.GetKey(increaseKey))
+        //    target = 1.0f;
+        //else if (Input.GetKey(decreaseKey))
+        //    target = 0.0f;
 
         throttle = Mathf.MoveTowards(throttle, target, Time.deltaTime * THROTTLE_SPEED);
     }
@@ -97,4 +101,6 @@ public class ShipInput : MonoBehaviour
         throttle += Input.GetAxis("Mouse ScrollWheel");
         throttle = Mathf.Clamp(throttle, 0.0f, 1.0f);
     }
+
+    
 }
