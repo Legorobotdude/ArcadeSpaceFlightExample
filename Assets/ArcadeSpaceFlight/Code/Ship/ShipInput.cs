@@ -41,20 +41,22 @@ public class ShipInput : MonoBehaviour
             strafe = Input.GetAxis("Horizontal");
             SetStickCommandsUsingMouse();
             UpdateMouseWheelThrottle();
-            UpdateThrottle();//You will have to use R/T
+            UpdateThrottle();//You will have to use configure in input settings, default is R/T
         }
         else
         {            
             pitch = Input.GetAxis("Vertical");
             yaw = Input.GetAxis("Horizontal");
+            roll = Input.GetAxis("Roll");
+            //Debug.Log(Input.GetAxis("Roll"));
 
             if (addRoll)
-                roll = -Input.GetAxis("Horizontal") * 0.5f;
+                roll += -Input.GetAxis("Horizontal") * 0.5f;
 
             strafe = 0.0f;
             UpdateThrottle();
         }
-        Debug.Log(Input.GetAxis("Throttle"));
+        
     }
 
     /// <summary>
@@ -76,7 +78,7 @@ public class ShipInput : MonoBehaviour
     }
 
     /// <summary>
-    /// Uses R and F to raise and lower the throttle.
+    /// Uses R and F to raise and lower the throttle. This can be configured in input settings
     /// </summary>
     private void UpdateThrottle()
     {
